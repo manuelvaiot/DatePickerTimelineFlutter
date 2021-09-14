@@ -50,14 +50,8 @@ class DateWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              Visibility(
-                visible: selectionColor != defaultColorSelect,
-                child: SizedBox(
-                  height: 10,
-                ),
-                replacement: SizedBox(
-                  height: 5,
-                ),
+              SizedBox(
+                height: 11,
               ),
               Text(
                 new DateFormat("E", locale).format(date).capitalize(), // WeekDay
