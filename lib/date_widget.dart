@@ -11,9 +11,12 @@ import 'package:intl/intl.dart';
 
 class DateWidget extends StatelessWidget {
   final double? width;
+  final double? height;
   final DateTime date;
+  final bool exibirMes;
   final TextStyle? monthTextStyle, dayTextStyle, dateTextStyle;
   final Color selectionColor;
+  final Color defaultColorSelect;
   final DateSelectionCallback? onDateSelected;
   final String? locale;
 
@@ -23,7 +26,10 @@ class DateWidget extends StatelessWidget {
     required this.dayTextStyle,
     required this.dateTextStyle,
     required this.selectionColor,
+    required this.exibirMes,
+    required this.defaultColorSelect,
     this.width,
+    this.height,
     this.onDateSelected,
     this.locale,
   });
@@ -33,23 +39,50 @@ class DateWidget extends StatelessWidget {
     return InkWell(
       child: Container(
         width: width,
-        margin: EdgeInsets.all(3.0),
+        height: height,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(8.0)),
+          borderRadius: BorderRadius.all(Radius.circular(12.0)),
           color: selectionColor,
         ),
-        child: Padding(
-          padding: EdgeInsets.all(8),
+        child: Container(
+          height: height,
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              Text(new DateFormat("MMM", locale).format(date).toUpperCase(), // Month
-                  style: monthTextStyle),
-              Text(date.day.toString(), // Date
-                  style: dateTextStyle),
-              Text(new DateFormat("E", locale).format(date).toUpperCase(), // WeekDay
-                  style: dayTextStyle)
+              Visibility(
+                visible: selectionColor != defaultColorSelect,
+                child: SizedBox(
+                  height: 10,
+                ),
+                replacement: SizedBox(
+                  height: 5,
+                ),
+              ),
+              Text(
+                new DateFormat("E", locale).format(date).capitalize(), // WeekDay
+                style: dayTextStyle,
+              ),
+              Visibility(
+                visible: selectionColor != defaultColorSelect,
+                child: SizedBox(
+                  height: 20,
+                ),
+                replacement: SizedBox(
+                  height: 5,
+                ),
+              ),
+              Text(
+                date.day.toString(), // Date
+                style: dateTextStyle,
+              ),
+              /*Visibility(
+                visible: exibirMes,
+                child: Text(
+                  new DateFormat("MMM", locale).format(date).toUpperCase(), // Month
+                  style: monthTextStyle,
+                ),
+              ),*/
             ],
           ),
         ),
@@ -62,5 +95,11 @@ class DateWidget extends StatelessWidget {
         }
       },
     );
+  }
+}
+
+extension StringExtensions on String {
+  String capitalize() {
+    return "${this[0].toUpperCase()}${this.toLowerCase().substring(1)}";
   }
 }

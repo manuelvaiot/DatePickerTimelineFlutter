@@ -12,6 +12,8 @@ class DatePicker extends StatefulWidget {
   /// If not provided calendar will start from the initialSelectedDate
   final DateTime startDate;
 
+  final bool exibirMes;
+
   /// Width of the selector
   final double width;
 
@@ -63,8 +65,8 @@ class DatePicker extends StatefulWidget {
   DatePicker(
     this.startDate, {
     Key? key,
-    this.width = 60,
-    this.height = 80,
+    this.width = 42,
+    this.height = 61,
     this.controller,
     this.monthTextStyle = defaultMonthTextStyle,
     this.dayTextStyle = defaultDayTextStyle,
@@ -77,7 +79,8 @@ class DatePicker extends StatefulWidget {
     this.inactiveDates,
     this.daysCount = 500,
     this.onDateChange,
-    this.locale = "en_US",
+    this.locale = "pt_BR",
+    this.exibirMes = false,
   }) : assert(
             activeDates == null || inactiveDates == null,
             "Can't "
@@ -175,6 +178,8 @@ class _DatePickerState extends State<DatePicker> {
           // Return the Date Widget
           return DateWidget(
             date: date,
+            width: widget.width,
+            height: widget.height,
             monthTextStyle: isDeactivated
                 ? deactivatedMonthStyle
                 : isSelected
@@ -190,7 +195,6 @@ class _DatePickerState extends State<DatePicker> {
                 : isSelected
                     ? selectedDayStyle
                     : widget.dayTextStyle,
-            width: widget.width,
             locale: widget.locale,
             selectionColor:
                 isSelected ? widget.selectionColor : Colors.transparent,
@@ -206,6 +210,8 @@ class _DatePickerState extends State<DatePicker> {
                 _currentDate = selectedDate;
               });
             },
+            exibirMes: widget.exibirMes,
+            defaultColorSelect: widget.selectedTextColor,
           );
         },
       ),
